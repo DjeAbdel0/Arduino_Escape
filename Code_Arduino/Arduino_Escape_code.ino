@@ -24,20 +24,19 @@ int etatPlay;
 
 
 void show_encoder_value(void) {
-    int32_t encoder[8] = {0};
-    for (int i = 0; i < 8; i++) {
-        encoder[i] = my8Encoder.getEncoderValue(i);
-         char address[20];
-      sprintf(address, "/Encoder/%d", i); 
-      monOsc.sendInt(address, encoder[i]);
-    }
-
+  int32_t encoder[8] = { 0 };
+  for (int i = 0; i < 8; i++) {
+    encoder[i] = my8Encoder.getEncoderValue(i);
+    char address[20];
+    sprintf(address, "/Encoder/%d", i);
+    monOsc.sendInt(address, encoder[i]);
+  }
 }
 
 void setup() {
   // put your setup code here, to run once:
   M5.begin(false, false, false);
-  FastLED.addLeds<WS2812, DATA_PIN, GRB>(&pixel, 1); 
+  FastLED.addLeds<WS2812, DATA_PIN, GRB>(&pixel, 1);
   Serial.begin(115200);
 
   unsigned long chronoDepart = millis();
@@ -54,25 +53,26 @@ void setup() {
   pixel = CRGB(0, 0, 0);
   FastLED.show();
 
-  Wire.begin();
+   my8Encoder.begin(&Wire, ENCODER_ADDR, SDA  , SCL, 100000UL);//Wire.begin();
   myPbHub.begin();
   myPbHub.setPixelCount(CHAN_KEY, 1);
-
+  /*
   myTOF.init();
   myTOF.setTimeout(500);
   myTOF.startContinuous();
-
-  my8Encoder.begin();
+*/
+ 
 }
 
 void maReceptionMessageOsc(MicroOscMessage& oscMessage) {
-
+  /*
   if (oscMessage.checkOscAddress("/master/vu")) {
     float vu = oscMessage.nextAsFloat();
     int niveau = floor(vu * 255.0);
     pixel = CRGB(niveau, niveau, niveau);
     FastLED.show();
   }
+  */
 }
 
 
@@ -101,12 +101,12 @@ void loop() {
       }
     }
     maLectureKeyPrecedente = maLectureKey;
-
+    /*
     int maLectureAngle = myPbHub.analogRead(CHAN_ANGLE);
     //float volume = maLectureAngle / 4095.0;
     int valeur = map(maLectureAngle, 0, 4095, 0, 127);
     monOsc.sendInt("/chiffreAngle", valeur);
-
+*/
     // Encoder Solo
     // int encoder_value = sensor.getEncoderValue();
     // monOsc.sendInt("/EncoderSolo", encoder_value);
