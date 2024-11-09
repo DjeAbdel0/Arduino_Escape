@@ -14,101 +14,100 @@ let button;
 // OSC WEBSOCKET
 let webSocketConnected = false;
 
-let socketPort = 8080; 
+let socketPort = 8080;
 oscSocket = new osc.WebSocketPort({
-				url: "ws://localhost:"+socketPort,
-				metadata: true
-			});
+	url: "ws://localhost:" + socketPort,
+	metadata: true
+});
 
 // ON WEBSOCKET OPEN AND READY
- oscSocket.on("ready", function (msg) {
-	console.log("WebSocket Opened on Port "+socketPort);
-	messageText.innerText  = "WebSocket Opened on Port "+socketPort;
+oscSocket.on("ready", function (msg) {
+	console.log("WebSocket Opened on Port " + socketPort);
+	messageText.innerText = "WebSocket Opened on Port " + socketPort;
 	webSocketConnected = true;
 });
-// ON WEBSOCKET MESSAGE
+
+let toutBon = false; //Bon mot
+
+
+// Tableau de lettres
+const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+//Bonne lettre (A, A, A, A, A, A, A, A)
+const bonneRep = [1, 1, 1, 1, 1, 1, 1, 1, 1];
+//Sauvegarde les values dans ce tableau
+let currentEncoderValues = new Array(9);
+
 oscSocket.on("message", function (msg) {
-	
+
+	let vraiMot = document.getElementById("vrai-mot");
+	let fauxMot = document.getElementById("faux-mot");
+	let etape1 = document.getElementById("etape-1");
+	let etape2 = document.getElementById("etape-2");
+
 	let address = msg.address;
-	let firstArgumentType = msg.args[0].type;
-    let firstArgumentValue = msg.args[0].value;
+	let firstArgumentValue = msg.args[0].value; // First value of /encoder/i
 
+	if (address.startsWith("/Encoder/")) {
+		let encoderIndex = parseInt(address.split("/Encoder/")[1]); // Get the encoder number
 
-	if ( address == "/Encoder/2" ) {
-		console.log("Encoder value received:", firstArgumentValue);  // Log the encoder value
+		if (encoderIndex >= 0 && encoderIndex <= 8) { // Only process encoders 0 to 8
+			let lettreElement = document.getElementById(`Lettre-${encoderIndex + 1}`); // Find the corresponding element for this encoder
+			if (lettreElement) {
+				if (firstArgumentValue >= 1 && firstArgumentValue <= 26) {
+					lettreElement.innerHTML = "Lettre: " + letters[firstArgumentValue - 1]; // Show letter
+				} else {
+					lettreElement.innerHTML = "Chiffre: " + firstArgumentValue + " Tourner vers la droite"; // If it's 0, say turn right
+				}
+			}
 
-		let angle = (firstArgumentValue / 1024.0) * 360;
-		pot.style.transform = "rotate(" + angle + "deg)";
-		if (firstArgumentValue === 1) {
-            document.getElementById("chiffreValue").innerText = "Lettre: a";
-        } else {
-            document.getElementById("chiffreValue").innerText = "Chiffre: " + firstArgumentValue;
-        }
-
-	} else if ( address == "/photo" ) {
-
-		let size = (firstArgumentValue / 1024.0) * 200 + 56;
-		photo.style.height = size + 'px';
-        photo.style.width = size + 'px';
-
-	} else if ( address == "/button" ) {
-
-		if ( firstArgumentValue == 0 ) {
-			button.src = "button_down.svg";
-		} else {
-			button.src = "button_up.svg";
+			// Store the current value of this encoder
+			currentEncoderValues[encoderIndex] = firstArgumentValue;
 		}
-
 	}
+
+	// Check if all encoders' values match the expected values
+	if (currentEncoderValues.every((value, index) => value === bonneRep[index])) {
+		toutBon = true;
+	} else {
+		toutBon = false;
+	}
+
+	// Button click event listener inside the message handler
+	document.getElementById("verifier").addEventListener("click", function () {
+		if (toutBon) {
+			document.body.style.backgroundColor = "green";
+			vraiMot.style.display = "block";
+			fauxMot.style.display = "none";
+			etape2.style.display = "flex";
+		} else {
+			document.body.style.backgroundColor = "red";
+			vraiMot.style.display = "none";
+			fauxMot.style.display = "block";
+			etape2.style.display = "none";
+		}
+	});
 });
+
+
 
 // ON WEBSOCKET CLOSED
 oscSocket.on("close", function (msg) {
 	console.log("WebSocket closed");
-	messageText.innerText  = "WebSocket closed";
+	messageText.innerText = "WebSocket closed";
 	webSocketConnected = false;
 });
 
 
-// TOGGLE LIGHT ON CLICK
-function toggleLight() {
-	console.log("Light was clicked!");
-	if (light.src.match("lightoff")) {
-		light.src = "lighton.png";
-		if ( webSocketConnected ) {
-			oscSocket.send({ address: "/led", args: [ { type: "i", value: 255 } ]});
-		}
-	} else {
-		light.src = "lightoff.png";
-		if ( webSocketConnected ) {
-			oscSocket.send({ address: "/led", args: [ { type: "i", value: 0 } ]});
-		}
-	}
-}
 
 
 // ON WINDOW UNLOAD
 window.addEventListener("beforeunload", (event) => {
-     oscSocket.close();
+	oscSocket.close();
 });
 
 // ON WINDOW LOAD
 window.addEventListener('load', (event) => {
-     oscSocket.open();
-	 
-	 // CONFIGURE LIGHT
-	light = document.getElementById("light");
-	light.addEventListener("mousedown", toggleLight);
+	oscSocket.open();
 
-	photo = document.getElementById("photo");
-     pot = document.getElementById("pot");
-     button = document.getElementById("button");
-	
-	// CONFIGURE MESSAGE TEXT
-	messageText =  document.getElementById("messageText");
-	
+
 });
-
-
-
-

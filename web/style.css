@@ -1,0 +1,57 @@
+body{
+    background-color: rgb(219, 219, 219);
+}
+
+#etape-1 {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    background-color: yellow;
+}
+#etape-2 {
+    margin-top: 20%;
+    display: none;
+    flex-direction: column; 
+    align-items: center;
+    background-color: violet;
+    
+}
+
+
+.letter-row {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 20px; 
+}
+
+.letter-row div {
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+    border: 1px solid #000;
+    width: 80px;
+}
+
+
+.button-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#verifier {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #d7db94;
+    color: white;
+    border-radius: 5%;
+    cursor: pointer;
+}
+
+#verifier:hover {
+    background-color: #45a049;
+}
+
+#faux-mot, #vrai-mot{
+    display: none;
+}

@@ -21,17 +21,26 @@ unsigned long monChronoMessages;
 
 int maLectureKeyPrecedente;
 int etatPlay;
-
-
 void show_encoder_value(void) {
   int32_t encoder[8] = { 0 };
   for (int i = 0; i < 8; i++) {
-    encoder[i] = my8Encoder.getEncoderValue(i);
+    // Retrieve the raw encoder value
+    int32_t rawValue = my8Encoder.getEncoderValue(i);
+    
+    // Map the raw value to the range 0 - 26
+    int32_t mappedValue = map(rawValue, 0, 52, 0, 26);
+    
+    // Ensure the mapped value is within 0 - 26
+    encoder[i] = max((int32_t)0, min(mappedValue, (int32_t)26));
+    
+    // Prepare the OSC address and send the clamped value
     char address[20];
     sprintf(address, "/Encoder/%d", i);
     monOsc.sendInt(address, encoder[i]);
+
   }
 }
+
 
 void setup() {
   // put your setup code here, to run once:
