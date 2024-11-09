@@ -26,38 +26,39 @@ oscSocket = new osc.WebSocketPort({
 	messageText.innerText  = "WebSocket Opened on Port "+socketPort;
 	webSocketConnected = true;
 });
-
 // ON WEBSOCKET MESSAGE
 oscSocket.on("message", function (msg) {
 	
 	let address = msg.address;
 	let firstArgumentType = msg.args[0].type;
-     let firstArgumentValue = msg.args[0].value;
-	
-	if ( address == "/chiffreAngle" ) {
+    let firstArgumentValue = msg.args[0].value;
 
-		let angle = (firstArgumentValue/1024.0)*360;
-		pot.style.transform = "rotate("+angle+"deg)";
+
+	if ( address == "/Encoder/2" ) {
+		console.log("Encoder value received:", firstArgumentValue);  // Log the encoder value
+
+		let angle = (firstArgumentValue / 1024.0) * 360;
+		pot.style.transform = "rotate(" + angle + "deg)";
 		if (firstArgumentValue === 1) {
             document.getElementById("chiffreValue").innerText = "Lettre: a";
         } else {
             document.getElementById("chiffreValue").innerText = "Chiffre: " + firstArgumentValue;
         }
 
-	} else  if ( address == "/photo" ) {
+	} else if ( address == "/photo" ) {
 
-		let size = (firstArgumentValue/1024.0)*200 + 56;
-		  photo.style.height = size+'px';
-            photo.style.width = size+'px';
-		
-	} else  if ( address == "/button" ) {
+		let size = (firstArgumentValue / 1024.0) * 200 + 56;
+		photo.style.height = size + 'px';
+        photo.style.width = size + 'px';
+
+	} else if ( address == "/button" ) {
 
 		if ( firstArgumentValue == 0 ) {
 			button.src = "button_down.svg";
 		} else {
 			button.src = "button_up.svg";
 		}
-		
+
 	}
 });
 
