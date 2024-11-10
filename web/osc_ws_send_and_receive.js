@@ -32,8 +32,8 @@ let toutBon = false; //Bon mot
 
 // Tableau de lettres
 const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-//Bonne lettre (A, A, A, A, A, A, A, A)
-const bonneRep = [1, 1, 1, 1, 1, 1, 1, 1, 1];
+//Bonne lettre (S, A, N, G, L, I, E, R)
+const bonneRep = [19, 1, 14, 7, 12, 9, 5, 18];
 //Sauvegarde les values dans ce tableau
 let currentEncoderValues = new Array(9);
 
