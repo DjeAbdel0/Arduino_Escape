@@ -110,12 +110,12 @@ void loop() {
       }
     }
     maLectureKeyPrecedente = maLectureKey;
-    /*
+    
     int maLectureAngle = myPbHub.analogRead(CHAN_ANGLE);
     //float volume = maLectureAngle / 4095.0;
     int valeur = map(maLectureAngle, 0, 4095, 0, 127);
     monOsc.sendInt("/chiffreAngle", valeur);
-*/
+
     // Encoder Solo
     // int encoder_value = sensor.getEncoderValue();
     // monOsc.sendInt("/EncoderSolo", encoder_value);
