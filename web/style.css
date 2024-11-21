@@ -64,7 +64,7 @@ body{
 }
 
 .thermometer-base,
-.thermometer-body {
+.thermometerBody {
 	background-color: #ededfa;
 	border: 15px solid #d8d9e8;
 	margin: 0 auto;
@@ -101,14 +101,14 @@ body{
 	transition: top 0.5s cubic-bezier(0.33, 1, 0.68, 1);
 }
 
-.thermometer-body,
-.thermometer-body-fill {
+.thermometerBody,
+.thermometerBodyFill {
 	margin: 0 auto;
 	border-radius: 50px 50px 0 0;
 	z-index: 1;
 }
 
-.thermometer-body {
+.thermometerBody {
 	height: 325px;
 	width: 60px;
 	border-bottom: 0;
@@ -117,7 +117,7 @@ body{
 	overflow: hidden;
 }
 
-.thermometer-body-fill {
+.thermometerBodyFill {
 	background-color: #db1d1d;
 	height: 320px;
 	width: 40px;

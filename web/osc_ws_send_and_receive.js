@@ -30,6 +30,10 @@ oscSocket.on("ready", function (msg) {
 let toutBon = false; //Bon mot
 
 
+// Get references to the DOM elements for thermometer
+let thermometerBody = document.querySelector('thermometerBody');
+let thermometerDegreeText = document.querySelector('thermometer-degree');
+
 // Tableau de lettres
 const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 //Bonne lettre (S, A, N, G, L, I, E, R)
@@ -86,6 +90,20 @@ oscSocket.on("message", function (msg) {
 			etape2.style.display = "none";
 		}
 	});
+
+	/*angle unit*/
+	// Handle angle unit message
+    if (address.startsWith("/chiffreAngle")) {
+        // Ensure the angle value is within a reasonable range (e.g., 0 to 100)
+        let angleThermo = firstArgumentValue;
+        console.log("Angle received: " + angleThermo);
+
+
+        // Update the thermometer fill height and the degree text
+		thermometerBody.style.height = angleThermo + "px";
+		thermometerBody.style.display = "none";
+
+    }
 });
 
 
