@@ -1,7 +1,7 @@
 /*******************
  * CONFIGURATION   *
  *******************/
-let serialPath = "COM5";
+let serialPath = "COM4";
 let serialBaud = 115200;
 let wsPort = 8080;
 

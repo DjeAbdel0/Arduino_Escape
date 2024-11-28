@@ -20,15 +20,9 @@ oscSocket = new osc.WebSocketPort({
 	metadata: true
 });
 
-// ON WEBSOCKET OPEN AND READY
-oscSocket.on("ready", function (msg) {
-	console.log("WebSocket Opened on Port " + socketPort);
-	messageText.innerText = "WebSocket Opened on Port " + socketPort;
-	webSocketConnected = true;
-});
+
 
 let toutBon = false; //Bon mot
-
 
 // Get references to the DOM elements for thermometer
 let thermometerBody = document.querySelector('thermometerBody');
@@ -49,34 +43,51 @@ oscSocket.on("message", function (msg) {
 	let etape2 = document.getElementById("etape-2");
 
 	let address = msg.address;
-	let firstArgumentValue = msg.args[0].value; // First value of /encoder/i
+	let firstArgumentValue = msg.args[0].value; 
 
 	if (address.startsWith("/Encoder/")) {
-		let encoderIndex = parseInt(address.split("/Encoder/")[1]); // Get the encoder number
+		let encoderIndex = parseInt(address.split("/Encoder/")[1]); 
 
-		if (encoderIndex >= 0 && encoderIndex <= 8) { // Only process encoders 0 to 8
-			let lettreElement = document.getElementById(`Lettre-${encoderIndex + 1}`); // Find the corresponding element for this encoder
+		if (encoderIndex >= 0 && encoderIndex <= 8) { 
+			let lettreElement = document.getElementById(`Lettre-${encoderIndex + 1}`); 
 			if (lettreElement) {
 				if (firstArgumentValue >= 1 && firstArgumentValue <= 26) {
-					lettreElement.innerHTML = "Lettre: " + letters[firstArgumentValue - 1]; // Show letter
+					lettreElement.innerHTML = "Lettre: " + letters[firstArgumentValue - 1]; 
 				} else {
-					lettreElement.innerHTML = "Chiffre: " + firstArgumentValue + " Tourner vers la droite"; // If it's 0, say turn right
+					lettreElement.innerHTML = "Chiffre: " + firstArgumentValue + " Tourner vers la droite"; 
 				}
 			}
 
-			// Store the current value of this encoder
+			
 			currentEncoderValues[encoderIndex] = firstArgumentValue;
 		}
 	}
 
-	// Check if all encoders' values match the expected values
 	if (currentEncoderValues.every((value, index) => value === bonneRep[index])) {
 		toutBon = true;
 	} else {
 		toutBon = false;
 	}
 
-	// Button click event listener inside the message handler
+	if (address.startsWith("/Verif1/")) {
+		let btn1 = parseInt(address.split("/Verif1/")[1]); 
+		console.log("/Verif1/ :", btn1);
+		console.log("/Verif1/ :", btn1.number);
+		console.log("/Verif1/ :", btn1.firstArgumentValue);
+		console.log("/Verif1/ :", firstArgumentValue);
+	
+		if (firstArgumentValue === 0) {
+			console.log("Bouton pressé ");
+			document.body.style.backgroundColor = "green"; 
+		} else {
+			console.log("Bouton relache");
+			document.body.style.backgroundColor = "white"; 
+		}
+	}
+	
+	
+
+	// Verifier 
 	document.getElementById("verifier").addEventListener("click", function () {
 		if (toutBon) {
 			document.body.style.backgroundColor = "green";
