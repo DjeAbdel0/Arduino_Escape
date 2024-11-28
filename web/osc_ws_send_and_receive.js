@@ -26,9 +26,9 @@ oscSocket.on("ready", function (msg) {
 	webSocketConnected = true;
 });
 
-let toutBon = false; //Bon mot
+let toutBon1 = false; //Bon mot etape 1
+let toutBon2 = false; //Bon mot etape 2
 
-// Get references to the DOM elements for thermometer
 let thermometerBody = document.querySelector('thermometerBody');
 let thermometerDegreeText = document.querySelector('thermometer-degree');
 
@@ -47,107 +47,98 @@ oscSocket.on("message", function (msg) {
 	let etape2 = document.getElementById("etape-2");
 
 	let address = msg.address;
-	let firstArgumentValue = msg.args[0].value; 
+	let firstArgumentValue = msg.args[0].value;
 
 	if (address.startsWith("/Encoder/")) {
-		let encoderIndex = parseInt(address.split("/Encoder/")[1]); 
+		let encoderIndex = parseInt(address.split("/Encoder/")[1]);
 
-		if (encoderIndex >= 0 && encoderIndex <= 8) { 
-			let lettreElement = document.getElementById(`Lettre-${encoderIndex + 1}`); 
+		if (encoderIndex >= 0 && encoderIndex <= 8) {
+			let lettreElement = document.getElementById(`Lettre-${encoderIndex + 1}`);
 			if (lettreElement) {
 				if (firstArgumentValue >= 1 && firstArgumentValue <= 26) {
-					lettreElement.innerHTML = "Lettre: " + letters[firstArgumentValue - 1]; 
+					lettreElement.innerHTML = "Lettre: " + letters[firstArgumentValue - 1];
 				} else {
-					lettreElement.innerHTML = "Chiffre: " + firstArgumentValue + " Tourner vers la droite"; 
+					lettreElement.innerHTML = "Chiffre: " + firstArgumentValue + " Tourner vers la droite";
 				}
 			}
 
-			
+
 			currentEncoderValues[encoderIndex] = firstArgumentValue;
 		}
 	}
 
-	if (address.startsWith("/Verif1/")) {
-		console.log("Message reçu pour /Verif-1/:", address);
-		let btnVerif1 = parseInt(address.split("/Verif1/")[1]);
-		console.log(btnVerif1);
-		if (btnVerif1 === 0) {
-			console.log("BTn est à 0");
-		} else if (btnVerif1 === 1) {
-			console.log("BTn est à 1");
-		} else {
-			console.log("Valeur inattendue pour btnVerif1 :", btnVerif1);
-		}
-	}
-	
-	
 
 	// Check if all encoders' values match the expected values
 	if (currentEncoderValues.every((value, index) => value === bonneRep[index])) {
-		toutBon = true;
+		toutBon1 = true;
 	} else {
-		toutBon = false;
+		toutBon1 = false;
 	}
 
+
+
 	if (address.startsWith("/Verif1")) {
-		console.log("/Verif1/ :", firstArgumentValue);
-	
-		if (firstArgumentValue === 0) {
-			if (toutBon) {
+		if (firstArgumentValue == 0) {
+			if (toutBon1) {
 				document.body.style.backgroundColor = "green";
 				vraiMot.style.display = "block";
 				fauxMot.style.display = "none";
 				etape2.style.display = "flex";
+			} else {
+				document.body.style.backgroundColor = "red";
+				vraiMot.style.display = "none";
+				fauxMot.style.display = "block";
+				etape2.style.display = "none";
 			}
-		} else {
-			document.body.style.backgroundColor = "red";
-			vraiMot.style.display = "none";
-			fauxMot.style.display = "block";
-			etape2.style.display = "none";
 		}
 	}
-	
-	
 
-	// Verifier 
-	document.getElementById("verifier").addEventListener("click", function () {
-		if (toutBon) {
-			document.body.style.backgroundColor = "green";
-			vraiMot.style.display = "block";
-			fauxMot.style.display = "none";
-			etape2.style.display = "flex";
-		} else {
-			document.body.style.backgroundColor = "red";
-			vraiMot.style.display = "none";
-			fauxMot.style.display = "block";
-			etape2.style.display = "none";
-		}
-	});
+
+
 
 	/************************angle unit*********************************/
 	//Recoi l'adresse
-    if (address.startsWith("/chiffreAngle")) {
-        // Ensure the angle value is within a reasonable range (e.g., 0 to 100)
-        let angleThermo = firstArgumentValue;
+	if (address.startsWith("/chiffreAngle")) {
+		// Ensure the angle value is within a reasonable range (e.g., 0 to 100)
+		let angleThermo = firstArgumentValue;
 
 
-        // Ajuster la taille du thermometre
-        let mappedHeight = 160 - (angleThermo * 149 / 100);  // Adjusting for a range between 160px and 11px
+		// Ajuster la taille du thermometre
+		let mappedHeight = 160 - (angleThermo * 149 / 100); // Adjusting for a range between 160px and 11px
 
-        let thermometerBodyFill = document.querySelector('.thermometerBodyFill');
-        thermometerBodyFill.style.top = `${mappedHeight}px`;
+		let thermometerBodyFill = document.querySelector('.thermometerBodyFill');
+		thermometerBodyFill.style.top = `${mappedHeight}px`;
 
 		//Montrer la temperature avec innerHTML
 		let angleDisplay = document.getElementById("angle-display");
 		angleDisplay.innerHTML = "Angle: " + firstArgumentValue + "°";
 
-		if (angleThermo === 69) {
+		if (mappedHeight == 69) {
+			toutBon2 = true;
 			console.log("Bonne réponse, l'angle est 69.");
 			// Vous pouvez ajouter des actions pour la bonne réponse ici
 		} else {
-			console.log("Mauvaise réponse, l'angle n'est pas .");
+			//	console.log("Mauvaise réponse, l'angle n'est pas .");
 			// Vous pouvez ajouter des actions pour la mauvaise réponse ici
 		}
+<<<<<<< HEAD
+
+		
+	}
+	if (address.startsWith("/Verif2")) {
+		console.log("/Verif2 : " +  firstArgumentValue);
+
+		if (firstArgumentValue == 0) {
+			if (toutBon2) {
+				document.body.style.backgroundColor = "green";
+				etape1.style.display = "none";
+			} else {
+				document.body.style.backgroundColor = "red";
+				etape1.style.display = "flex";
+			}
+		}
+	}
+=======
     }
 
 /************************Encoder solo*********************************/
@@ -189,6 +180,10 @@ if (JSON.stringify(combinaisonArr) === JSON.stringify([a, b, c])) {
   console.log("Cadenas déverrouillé !");
 }
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> 11a0a46a056542845dd63c58587efbb96abbe9e0
+>>>>>>> Stashed changes
 });
 
 
