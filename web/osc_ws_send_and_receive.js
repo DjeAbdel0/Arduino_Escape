@@ -92,17 +92,21 @@ oscSocket.on("message", function (msg) {
 	});
 
 	/*angle unit*/
-	// Handle angle unit message
+	//Recoi l'adresse
     if (address.startsWith("/chiffreAngle")) {
-        // Ensure the angle value is within a reasonable range (e.g., 0 to 100)
-        let angleThermo = firstArgumentValue;
-        console.log("Angle received: " + angleThermo);
 
+		let angleThermo = firstArgumentValue;
+        //console.log("Angle received: " + angleThermo);
 
-        // Update the thermometer fill height and the degree text
-		thermometerBody.style.height = angleThermo + "px";
-		thermometerBody.style.display = "none";
+        // Ajuster la taille du thermometre
+        let mappedHeight = 160 - (angleThermo * 149 / 100);  // Adjusting for a range between 160px and 11px
 
+        let thermometerBodyFill = document.querySelector('.thermometerBodyFill');
+        thermometerBodyFill.style.top = `${mappedHeight}px`;
+		
+		//Montrer la temperature avec innerHTML
+		let angleDisplay = document.getElementById("angle-display");
+		angleDisplay.innerHTML = "Angle: " + firstArgumentValue + "°";
     }
 });
 

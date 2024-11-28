@@ -113,7 +113,7 @@ void loop() {
     
     int maLectureAngle = myPbHub.analogRead(CHAN_ANGLE);
     //float volume = maLectureAngle / 4095.0;
-    int valeur = map(maLectureAngle, 0, 4095, 0, 127);
+    int valeur = map(maLectureAngle, 0, 4095, 0, 100);
     monOsc.sendInt("/chiffreAngle", valeur);
 
     // Encoder Solo

@@ -122,6 +122,6 @@ body{
 	height: 320px;
 	width: 40px;
 	position: relative;
-	top: 160px; /* lowest value is 11px - highest value is 300px */
+	top: 160px;
 	transition: top 0.5s linear;
 }
