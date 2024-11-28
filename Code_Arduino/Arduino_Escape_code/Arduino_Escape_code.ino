@@ -1,5 +1,6 @@
-#define CHAN_KEY 1
 #define CHAN_ANGLE 0
+#define btn1 1
+#define btn2 2
 #define CHAN_8ENCODER 3
 
 #include <M5Atom.h>
@@ -17,12 +18,16 @@ Unit_Encoder myEncoder;
 
 
 
+
+
 CRGB pixel;
 // Unit_Encoder sensor; Juste un Sensor a chq fois
 UNIT_8ENCODER my8Encoder;
 unsigned long monChronoMessages;
 
-int maLectureKeyPrecedente;
+int maLectureKeyPrecedente1;
+int maLectureKeyPrecedente2;
+
 int etatPlay;
 void show_encoder_value(void) {
   int32_t encoder[8] = { 0 };
@@ -57,12 +62,12 @@ void setup() {
     delay(100);
   }
 
-myPbHub.setPixelColor(CHAN_KEY, 0, 0, 255, 0);
+  myPbHub.setPixelColor(btn1, 0, 0, 255, 0);
 
   my8Encoder.begin(&Wire, ENCODER_ADDR, SDA, SCL, 100000UL);  //Wire.begin();
   myPbHub.begin();
-  myPbHub.setPixelCount(CHAN_KEY, 1);
-    myEncoder.begin(); // Démarrer la connexion avec l'encodeur
+  myPbHub.setPixelCount(btn1, 1);
+   myEncoder.begin(); // Démarrer la connexion avec l'encodeur
 }
 
 void maReceptionMessageOsc(MicroOscMessage& oscMessage) {
@@ -78,12 +83,26 @@ void loop() {
   if (millis() - monChronoMessages >= 20) {
     monChronoMessages = millis();
 
-    int maLectureKey = myPbHub.digitalRead(CHAN_KEY);
+    int maLectureKey1 = myPbHub.digitalRead(btn1);
+    int maLectureKey2 = myPbHub.digitalRead(btn2);
 
-    if (maLectureKeyPrecedente != maLectureKey) { 
-      monOsc.sendInt("/Verif1", maLectureKey);
+    if (maLectureKeyPrecedente1 != maLectureKey1) {
+      if (maLectureKey1 == 0) {
+      
+        myPbHub.setPixelColor(btn1, 0, 0, 255, 0);
+        monOsc.sendInt("/Verif1", etatPlay);  
+      }
     }
-    
+    maLectureKeyPrecedente1 = maLectureKey1;
+
+    if (maLectureKeyPrecedente2 != maLectureKey2) {
+      if (maLectureKey2 == 0) {
+      
+        myPbHub.setPixelColor(btn2, 0, 0, 0, 255);
+        monOsc.sendInt("/Verif2", etatPlay); 
+      }
+    }
+    maLectureKeyPrecedente2 = maLectureKey2;
 
     int maLectureAngle = myPbHub.analogRead(CHAN_ANGLE);
     //float volume = maLectureAngle / 4095.0;
@@ -92,13 +111,11 @@ void loop() {
 
     //Encoder 8 channels
     show_encoder_value();
-
-
+    
     //Encoder solo (étape 2)
         int encoderRotation = myEncoder.getEncoderValue();
         monOsc.sendInt("/cadenas", encoderRotation);
         int encoderButton = myEncoder.getButtonStatus();
         monOsc.sendInt("/cadenas/button", encoderButton);
-    }   
   }
 }
