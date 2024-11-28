@@ -1,6 +1,13 @@
+@font-face {
+	font-family: 'Enigma-Bold';
+	src: url('./enigma_4/Enigma-Bold.otf') format('opentype');
+  }
+  
+
 body{
     background-color: rgb(219, 219, 219);
     text-align: center;
+	font-family: "Enigma-Bold";
 }
 
 #etape-1 {
