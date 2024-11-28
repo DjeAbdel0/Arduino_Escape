@@ -124,7 +124,7 @@ oscSocket.on("message", function (msg) {
 		}
 	});
 
-	/*angle unit*/
+	/************************angle unit*********************************/
 	//Recoi l'adresse
     if (address.startsWith("/chiffreAngle")) {
         // Ensure the angle value is within a reasonable range (e.g., 0 to 100)
@@ -136,10 +136,18 @@ oscSocket.on("message", function (msg) {
 
         let thermometerBodyFill = document.querySelector('.thermometerBodyFill');
         thermometerBodyFill.style.top = `${mappedHeight}px`;
-		
+
 		//Montrer la temperature avec innerHTML
 		let angleDisplay = document.getElementById("angle-display");
 		angleDisplay.innerHTML = "Angle: " + firstArgumentValue + "°";
+
+		if (angleThermo === 69) {
+			console.log("Bonne réponse, l'angle est 69.");
+			// Vous pouvez ajouter des actions pour la bonne réponse ici
+		} else {
+			console.log("Mauvaise réponse, l'angle n'est pas .");
+			// Vous pouvez ajouter des actions pour la mauvaise réponse ici
+		}
     }
 });
 
