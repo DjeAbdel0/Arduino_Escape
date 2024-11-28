@@ -121,25 +121,18 @@ oscSocket.on("message", function (msg) {
 			//	console.log("Mauvaise réponse, l'angle n'est pas .");
 			// Vous pouvez ajouter des actions pour la mauvaise réponse ici
 		}
-<<<<<<< HEAD
-
-		
-	}
+    }
 	if (address.startsWith("/Verif2")) {
-		console.log("/Verif2 : " +  firstArgumentValue);
-
 		if (firstArgumentValue == 0) {
 			if (toutBon2) {
 				document.body.style.backgroundColor = "green";
-				etape1.style.display = "none";
+				etape1.style.display = "flex";
 			} else {
 				document.body.style.backgroundColor = "red";
-				etape1.style.display = "flex";
+				etape1.style.display = "none";
 			}
 		}
 	}
-=======
-    }
 
 /************************Encoder solo*********************************/
 let cadenas = firstArgumentValue;
@@ -180,10 +173,6 @@ if (JSON.stringify(combinaisonArr) === JSON.stringify([a, b, c])) {
   console.log("Cadenas déverrouillé !");
 }
 
-<<<<<<< Updated upstream
-=======
->>>>>>> 11a0a46a056542845dd63c58587efbb96abbe9e0
->>>>>>> Stashed changes
 });
 
 
