@@ -1,5 +1,5 @@
-#define CHAN_KEY 0
-#define CHAN_ANGLE 1
+#define CHAN_KEY 1
+#define CHAN_ANGLE 0
 #define CHAN_8ENCODER 3
 
 #include <M5Atom.h>
@@ -26,18 +26,17 @@ void show_encoder_value(void) {
   for (int i = 0; i < 8; i++) {
     // Retrieve the raw encoder value
     int32_t rawValue = my8Encoder.getEncoderValue(i);
-    
+
     // Map the raw value to the range 0 - 26
     int32_t mappedValue = map(rawValue, 0, 52, 0, 26);
-    
+
     // Ensure the mapped value is within 0 - 26
     encoder[i] = max((int32_t)0, min(mappedValue, (int32_t)26));
-    
+
     // Prepare the OSC address and send the clamped value
     char address[20];
     sprintf(address, "/Encoder/%d", i);
     monOsc.sendInt(address, encoder[i]);
-
   }
 }
 
@@ -50,38 +49,19 @@ void setup() {
 
   unsigned long chronoDepart = millis();
   while (millis() - chronoDepart < 5000) {
-    pixel = CRGB(255, 255, 255);
-    FastLED.show();
-    delay(100);
-
-    pixel = CRGB(0, 255, 0);
+    pixel = CRGB(0, 255, 15);
     FastLED.show();
     delay(100);
   }
 
-  pixel = CRGB(0, 0, 0);
-  FastLED.show();
+myPbHub.setPixelColor(CHAN_KEY, 0, 0, 255, 0);
 
-   my8Encoder.begin(&Wire, ENCODER_ADDR, SDA  , SCL, 100000UL);//Wire.begin();
+  my8Encoder.begin(&Wire, ENCODER_ADDR, SDA, SCL, 100000UL);  //Wire.begin();
   myPbHub.begin();
   myPbHub.setPixelCount(CHAN_KEY, 1);
-  /*
-  myTOF.init();
-  myTOF.setTimeout(500);
-  myTOF.startContinuous();
-*/
- 
 }
 
 void maReceptionMessageOsc(MicroOscMessage& oscMessage) {
-  /*
-  if (oscMessage.checkOscAddress("/master/vu")) {
-    float vu = oscMessage.nextAsFloat();
-    int niveau = floor(vu * 255.0);
-    pixel = CRGB(niveau, niveau, niveau);
-    FastLED.show();
-  }
-  */
 }
 
 
@@ -96,29 +76,16 @@ void loop() {
 
     int maLectureKey = myPbHub.digitalRead(CHAN_KEY);
 
-    if (maLectureKeyPrecedente != maLectureKey) {
-      if (maLectureKey == 0) {
-
-        etatPlay = !etatPlay;
-
-        int monMin = 0;
-        int monMax = 256;
-        int r = random(monMin, monMax);
-        int g = random(monMin, monMax);
-        int b = random(monMin, monMax);
-        myPbHub.setPixelColor(CHAN_KEY, 0, r, g, b);
-      }
+    if (maLectureKeyPrecedente != maLectureKey) { 
+      monOsc.sendInt("/Verif1", maLectureKey);
+      
     }
-    maLectureKeyPrecedente = maLectureKey;
     
+
     int maLectureAngle = myPbHub.analogRead(CHAN_ANGLE);
     //float volume = maLectureAngle / 4095.0;
     int valeur = map(maLectureAngle, 0, 4095, 0, 100);
     monOsc.sendInt("/chiffreAngle", valeur);
-
-    // Encoder Solo
-    // int encoder_value = sensor.getEncoderValue();
-    // monOsc.sendInt("/EncoderSolo", encoder_value);
 
     //Encoder 8 channels
     show_encoder_value();

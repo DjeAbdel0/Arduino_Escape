@@ -69,19 +69,21 @@ oscSocket.on("message", function (msg) {
 		toutBon = false;
 	}
 
-	if (address.startsWith("/Verif1/")) {
-		let btn1 = parseInt(address.split("/Verif1/")[1]); 
-		console.log("/Verif1/ :", btn1);
-		console.log("/Verif1/ :", btn1.number);
-		console.log("/Verif1/ :", btn1.firstArgumentValue);
+	if (address.startsWith("/Verif1")) {
 		console.log("/Verif1/ :", firstArgumentValue);
 	
 		if (firstArgumentValue === 0) {
-			console.log("Bouton pressé ");
-			document.body.style.backgroundColor = "green"; 
+			if (toutBon) {
+				document.body.style.backgroundColor = "green";
+				vraiMot.style.display = "block";
+				fauxMot.style.display = "none";
+				etape2.style.display = "flex";
+			}
 		} else {
-			console.log("Bouton relache");
-			document.body.style.backgroundColor = "white"; 
+			document.body.style.backgroundColor = "red";
+			vraiMot.style.display = "none";
+			fauxMot.style.display = "block";
+			etape2.style.display = "none";
 		}
 	}
 	
