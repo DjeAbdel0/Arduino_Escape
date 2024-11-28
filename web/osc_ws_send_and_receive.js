@@ -149,6 +149,46 @@ oscSocket.on("message", function (msg) {
 			// Vous pouvez ajouter des actions pour la mauvaise réponse ici
 		}
     }
+
+/************************Encoder solo*********************************/
+let cadenas = firstArgumentValue;
+let currentIndex = 0; // Indice actuel pour le nombre en cours
+let combinaisonArr = [0, 0, 0]; // Valeurs initiales pour le cadenas
+let nombreArr = [
+  document.querySelector('#nombre-1'),
+  document.querySelector('#nombre-2'),
+  document.querySelector('#nombre-3')
+];
+
+// Mettre à jour les affichages des nombres
+function updateDisplay() {
+  nombreArr.forEach((el, index) => {
+    el.innerHTML = combinaisonArr[index];
+  });
+}
+
+// Réception des données OSC
+if (address.startsWith("/cadenas")) {
+  if (address.startsWith("/cadenas/button")) {
+    // Le bouton est pressé : passer au nombre suivant
+    if (currentIndex < combinaisonArr.length - 1) {
+      currentIndex++;
+    } else {
+      console.log("Tous les nombres sont définis : ", combinaisonArr);
+      // Si tous les nombres sont définis, ajouter une vérification ici
+    }
+  } else {
+    // Mise à jour de la valeur de l'encodeur pour le nombre courant
+    combinaisonArr[currentIndex] += cadenas; // Ajoute la rotation
+    updateDisplay(); // Met à jour l'affichage
+  }
+}
+
+// Vérification finale de la combinaison
+if (JSON.stringify(combinaisonArr) === JSON.stringify([a, b, c])) {
+  console.log("Cadenas déverrouillé !");
+}
+
 });
 
 

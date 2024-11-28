@@ -10,6 +10,9 @@ M5_PbHub myPbHub;
 #include <VL53L0X.h>
 VL53L0X myTOF;
 #include "Unit_Encoder.h"
+//Encoder
+#include "Unit_Encoder.h"
+Unit_Encoder myEncoder;
 #include "UNIT_8ENCODER.h"
 
 
@@ -59,6 +62,7 @@ myPbHub.setPixelColor(CHAN_KEY, 0, 0, 255, 0);
   my8Encoder.begin(&Wire, ENCODER_ADDR, SDA, SCL, 100000UL);  //Wire.begin();
   myPbHub.begin();
   myPbHub.setPixelCount(CHAN_KEY, 1);
+    myEncoder.begin(); // Démarrer la connexion avec l'encodeur
 }
 
 void maReceptionMessageOsc(MicroOscMessage& oscMessage) {
@@ -78,7 +82,6 @@ void loop() {
 
     if (maLectureKeyPrecedente != maLectureKey) { 
       monOsc.sendInt("/Verif1", maLectureKey);
-      
     }
     
 
@@ -89,5 +92,13 @@ void loop() {
 
     //Encoder 8 channels
     show_encoder_value();
+
+
+    //Encoder solo (étape 2)
+        int encoderRotation = myEncoder.getEncoderValue();
+        monOsc.sendInt("/cadenas", encoderRotation);
+        int encoderButton = myEncoder.getButtonStatus();
+        monOsc.sendInt("/cadenas/button", encoderButton);
+    }   
   }
 }
