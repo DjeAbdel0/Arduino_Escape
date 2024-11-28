@@ -20,7 +20,11 @@ oscSocket = new osc.WebSocketPort({
 	metadata: true
 });
 
-
+// ON WEBSOCKET OPEN AND READY
+oscSocket.on("ready", function (msg) {
+	console.log("WebSocket Opened on Port " + socketPort);
+	webSocketConnected = true;
+});
 
 let toutBon = false; //Bon mot
 
@@ -63,6 +67,22 @@ oscSocket.on("message", function (msg) {
 		}
 	}
 
+	if (address.startsWith("/Verif1/")) {
+		console.log("Message reçu pour /Verif-1/:", address);
+		let btnVerif1 = parseInt(address.split("/Verif1/")[1]);
+		console.log(btnVerif1);
+		if (btnVerif1 === 0) {
+			console.log("BTn est à 0");
+		} else if (btnVerif1 === 1) {
+			console.log("BTn est à 1");
+		} else {
+			console.log("Valeur inattendue pour btnVerif1 :", btnVerif1);
+		}
+	}
+	
+	
+
+	// Check if all encoders' values match the expected values
 	if (currentEncoderValues.every((value, index) => value === bonneRep[index])) {
 		toutBon = true;
 	} else {
@@ -107,9 +127,9 @@ oscSocket.on("message", function (msg) {
 	/*angle unit*/
 	//Recoi l'adresse
     if (address.startsWith("/chiffreAngle")) {
+        // Ensure the angle value is within a reasonable range (e.g., 0 to 100)
+        let angleThermo = firstArgumentValue;
 
-		let angleThermo = firstArgumentValue;
-        //console.log("Angle received: " + angleThermo);
 
         // Ajuster la taille du thermometre
         let mappedHeight = 160 - (angleThermo * 149 / 100);  // Adjusting for a range between 160px and 11px
