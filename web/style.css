@@ -20,6 +20,15 @@ body{
     
 }
 
+#etape-3 {
+    margin-top: 20%;
+    display: none;
+    flex-direction: column; 
+    align-items: center;
+    background-color: violet;
+    
+}
+
 
 .letter-row {
     display: flex;
@@ -125,3 +134,4 @@ body{
 	top: 160px;
 	transition: top 0.5s linear;
 }
+
