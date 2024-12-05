@@ -1,6 +1,9 @@
 #define CHAN_ANGLE 0
 #define btn1 1
 #define btn2 2
+#define btn3 3
+#define btn4 4
+#define ENCODER 2
 #define CHAN_8ENCODER 3
 
 #include <M5Atom.h>
@@ -11,26 +14,34 @@ M5_PbHub myPbHub;
 #include <VL53L0X.h>
 VL53L0X myTOF;
 #include "Unit_Encoder.h"
-//Encoder
+// Encoder
 #include "Unit_Encoder.h"
 Unit_Encoder myEncoder;
 #include "UNIT_8ENCODER.h"
 
-
-
-
-
 CRGB pixel;
-// Unit_Encoder sensor; Juste un Sensor a chq fois
 UNIT_8ENCODER my8Encoder;
 unsigned long monChronoMessages;
 
 int maLectureKeyPrecedente1;
 int maLectureKeyPrecedente2;
+int maLectureKeyPrecedente3;
+int maLectureKeyPrecedente4;
+
+
 
 int etatPlay;
+
+// Fonction pour réinitialiser les compteurs des encodeurs
+void resetCounter() {
+    for (int i = 0; i < 8; i++) {
+        my8Encoder.resetCounter(i);  // Réinitialiser le compteur de chaque encodeur
+    }
+}
+
 void show_encoder_value(void) {
   int32_t encoder[8] = { 0 };
+
   for (int i = 0; i < 8; i++) {
     // Retrieve the raw encoder value
     int32_t rawValue = my8Encoder.getEncoderValue(i);
@@ -48,9 +59,7 @@ void show_encoder_value(void) {
   }
 }
 
-
 void setup() {
-  // put your setup code here, to run once:
   M5.begin(false, false, false);
   FastLED.addLeds<WS2812, DATA_PIN, GRB>(&pixel, 1);
   Serial.begin(115200);
@@ -67,55 +76,73 @@ void setup() {
   my8Encoder.begin(&Wire, ENCODER_ADDR, SDA, SCL, 100000UL);  //Wire.begin();
   myPbHub.begin();
   myPbHub.setPixelCount(btn1, 1);
-   myEncoder.begin(); // Démarrer la connexion avec l'encodeur
+  myEncoder.begin();  // Démarrer la connexion avec l'encodeur
 }
 
 void maReceptionMessageOsc(MicroOscMessage& oscMessage) {
 }
-
 
 void loop() {
   M5.update();
 
   monOsc.onOscMessageReceived(maReceptionMessageOsc);
 
-  // À CHAQUE 20 MS I.E. 50x PAR SECONDE
+  // À CHAQUE 20 MS
   if (millis() - monChronoMessages >= 20) {
     monChronoMessages = millis();
 
     int maLectureKey1 = myPbHub.digitalRead(btn1);
     int maLectureKey2 = myPbHub.digitalRead(btn2);
+    int maLectureKey3 = myPbHub.digitalRead(btn3);
+    int maLectureKey4 = myPbHub.digitalRead(btn4);
 
+    // Bouton Verif 1
     if (maLectureKeyPrecedente1 != maLectureKey1) {
       if (maLectureKey1 == 0) {
-      
         myPbHub.setPixelColor(btn1, 0, 0, 255, 0);
-        monOsc.sendInt("/Verif1", etatPlay);  
+        monOsc.sendInt("/Verif1", etatPlay);
+        resetCounter();  // Réinitialiser tous les encodeurs
       }
     }
     maLectureKeyPrecedente1 = maLectureKey1;
 
+    // Traitement pour les autres boutons...
     if (maLectureKeyPrecedente2 != maLectureKey2) {
       if (maLectureKey2 == 0) {
-      
         myPbHub.setPixelColor(btn2, 0, 0, 0, 255);
-        monOsc.sendInt("/Verif2", etatPlay); 
+        monOsc.sendInt("/Verif2", etatPlay);
       }
     }
     maLectureKeyPrecedente2 = maLectureKey2;
 
+    if (maLectureKeyPrecedente3 != maLectureKey3) {
+      if (maLectureKey3 == 0) {
+        myPbHub.setPixelColor(btn3, 0, 255, 0, 0);
+        monOsc.sendInt("/Verif3", etatPlay);
+      }
+    }
+    maLectureKeyPrecedente3 = maLectureKey3;
+
+    if (maLectureKeyPrecedente4 != maLectureKey4) {
+      if (maLectureKey4 == 0) {
+        myPbHub.setPixelColor(btn4, 0, 255, 255, 255);
+        monOsc.sendInt("/Reset", etatPlay);
+      }
+    }
+    maLectureKeyPrecedente4 = maLectureKey4;
+
+    // Lecture de l'angle et envoi
     int maLectureAngle = myPbHub.analogRead(CHAN_ANGLE);
-    //float volume = maLectureAngle / 4095.0;
     int valeur = map(maLectureAngle, 0, 4095, 0, 100);
     monOsc.sendInt("/chiffreAngle", valeur);
 
-    //Encoder 8 channels
+    // Affichage des valeurs des encodeurs
     show_encoder_value();
-    
-    //Encoder solo (étape 2)
-        int encoderRotation = myEncoder.getEncoderValue();
-        monOsc.sendInt("/cadenas", encoderRotation);
-        int encoderButton = myEncoder.getButtonStatus();
-        monOsc.sendInt("/cadenas/button", encoderButton);
+
+    // Encoder solo
+    int encoderRotation = myEncoder.getEncoderValue();
+    monOsc.sendInt("/cadenas", encoderRotation);
+    int encoderButton = myEncoder.getButtonStatus();
+    monOsc.sendInt("/cadenas/button", encoderButton);
   }
 }

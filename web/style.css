@@ -1,61 +1,89 @@
 @font-face {
-	font-family: 'Enigma-Bold';
-	src: url('./enigma_4/Enigma-Bold.otf') format('opentype');
-  }
-  
-
-body{
-    background-color: rgb(219, 219, 219);
+    font-family: 'Enigma-Bold';
+    src: url('./enigma_4/Enigma-Bold.otf') format('opentype');
+}
+ 
+body {
+    background-color: rgb(117, 255, 255);
     text-align: center;
-	font-family: "Enigma-Bold";
-}
-
-#etape-1 {
-    width: 70%;
-    margin: 0 auto;
+    font-family: "Enigma-Bold";
+    height: 100vh;
+    margin: 0;
     display: flex;
-    flex-direction: column; 
+    justify-content: center;
     align-items: center;
-    background-color: yellow;
 }
+ 
+#charad {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+ 
+.bg-1 {
+    background-color: rgb(221, 209, 35);
+}
+ 
+#etape-3, #etape-1, #etape-2 {
+    background-color: rgb(86, 86, 231);
+}
+ 
+#win {
+    background-color: rgb(0, 255, 76);
+}
+ 
+ 
+#etape-1, #etape-2, #etape-3, #win {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    padding: 20px;
+    border-radius: 20px;
+}
+#etape-1 {
+    display: flex;
+}
+ 
 #etape-2 {
-    margin-top: 20%;
     display: none;
-    flex-direction: column; 
-    align-items: center;
-    background-color: violet;
-    
 }
-
 #etape-3 {
-    margin-top: 20%;
     display: none;
-    flex-direction: column; 
-    align-items: center;
-    background-color: violet;
-    
 }
-
-
+#win {
+    display: none;
+}
+.os {
+    width: 40%;
+    display: flex;
+    justify-content: space-evenly;
+}
+ 
+#o1, #o2, #o3 {
+    font-size: 50px;
+}
+ 
+/*************************** Étape 1 ***************************/
 .letter-row {
     display: flex;
     margin: 15px;
 }
-
+ 
 .letter-row div {
     padding: 10px;
     font-size: 10px;
     text-align: center;
     border: 1px solid #000;
 }
-
-
+ 
 .button-row {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
-
+ 
 #verifier {
     padding: 10px 20px;
     font-size: 18px;
@@ -64,81 +92,101 @@ body{
     border-radius: 5%;
     cursor: pointer;
 }
-
+ 
 #verifier:hover {
     background-color: #45a049;
 }
-
-#faux-mot, #vrai-mot{
+ 
+#faux-mot, #vrai-mot {
     display: none;
 }
-
+ 
+ 
+/*************************** Étape 2 ***************************/
+ 
+ 
+ 
 .thermometer {
-	width: 200px;
-	margin: 0 auto;
-	position: relative;
+    width: 200px;
+    margin: 0 auto;
+    position: relative;
 }
-
+ 
 .thermometer-base,
 .thermometerBody {
-	background-color: #ededfa;
-	border: 15px solid #d8d9e8;
-	margin: 0 auto;
+    background-color: #ededfa;
+    border: 15px solid #d8d9e8;
+    margin: 0 auto;
 }
-
+ 
 .thermometer-base,
 .thermometer-base-fill {
-	margin: 0 auto;
-	border-radius: 50%;
-	z-index: 0;
+    margin: 0 auto;
+    border-radius: 50%;
+    z-index: 0;
 }
-
+ 
 .thermometer-base {
-	height: 120px;
-	width: 120px;
+    height: 120px;
+    width: 120px;
 }
-
+ 
 .thermometer-base::before {
-	content: "";
-	background-color: #db1d1d;
-	height: 15px;
-	width: 40px;
-	position: absolute;
-	left: 80px;
-	z-index: 1;
+    content: "";
+    background-color: #db1d1d;
+    height: 15px;
+    width: 40px;
+    position: absolute;
+    left: 80px;
+    z-index: 1;
 }
-
+ 
 .thermometer-base-fill {
-	background-color: #db1d1d;
-	height: 98px;
-	width: 98px;
-	position: relative;
-	top: 11px;
-	transition: top 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+    background-color: #db1d1d;
+    height: 98px;
+    width: 98px;
+    position: relative;
+    top: 11px;
+    transition: top 0.5s cubic-bezier(0.33, 1, 0.68, 1);
 }
-
+ 
 .thermometerBody,
 .thermometerBodyFill {
-	margin: 0 auto;
-	border-radius: 50px 50px 0 0;
-	z-index: 1;
+    margin: 0 auto;
+    border-radius: 50px 50px 0 0;
+    z-index: 1;
 }
-
+ 
 .thermometerBody {
-	height: 325px;
-	width: 60px;
-	border-bottom: 0;
-	position: relative;
-	bottom: -23px;
-	overflow: hidden;
+    height: 325px;
+    width: 60px;
+    border-bottom: 0;
+    position: relative;
+    bottom: -23px;
+    overflow: hidden;
 }
-
+ 
 .thermometerBodyFill {
-	background-color: #db1d1d;
-	height: 320px;
-	width: 40px;
-	position: relative;
-	top: 160px;
-	transition: top 0.5s linear;
+    background-color: #db1d1d;
+    height: 320px;
+    width: 40px;
+    position: relative;
+    top: 160px;
+    transition: top 0.5s linear;
 }
-
+ 
+/*************************** Étape 3 ***************************/
+ 
+.puzzle-3 {
+    width: 100%;
+}
+ 
+.cadenas {
+    width: 40%;
+    display: flex;
+    justify-content: space-evenly;
+}
+ 
+#nombre-1, #nombre-2, #nombre-3 {
+    font-size: 50px;
+}

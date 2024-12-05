@@ -26,8 +26,9 @@ oscSocket.on("ready", function (msg) {
 	webSocketConnected = true;
 });
 
-let toutBon1 = false; //Bon mot etape 1
-let toutBon2 = false; //Bon mot etape 2
+let toutBon1 = false; //Bonne réponse etape 1
+let toutBon2 = false; //Bonne réponse etape 2
+let toutBon3 = false; //Bonne réponse etape 3
 
 let thermometerBody = document.querySelector('thermometerBody');
 let thermometerDegreeText = document.querySelector('thermometer-degree');
@@ -41,10 +42,13 @@ let currentEncoderValues = new Array(9);
 
 oscSocket.on("message", function (msg) {
 
+	/************************Étape 1: 8Encoder*********************************/
 	let vraiMot = document.getElementById("vrai-mot");
 	let fauxMot = document.getElementById("faux-mot");
 	let etape1 = document.getElementById("etape-1");
 	let etape2 = document.getElementById("etape-2");
+	let etape3 = document.getElementById("etape-3");
+	let win = document.getElementById("win");
 
 	let address = msg.address;
 	let firstArgumentValue = msg.args[0].value;
@@ -62,38 +66,32 @@ oscSocket.on("message", function (msg) {
 				}
 			}
 
-
+			// Assign firstArgumentValue to currentEncoderValues
 			currentEncoderValues[encoderIndex] = firstArgumentValue;
 		}
 	}
 
+	// Update the value of `toutBon1` (Step 1 verification)
+	toutBon1 = currentEncoderValues.every((value, index) => value === bonneRep[index]);
 
-	// Check if all encoders' values match the expected values
-	if (currentEncoderValues.every((value, index) => value === bonneRep[index])) {
-		toutBon1 = true;
-	} else {
-		toutBon1 = false;
-	}
-
-
-
+	// Handle Btn1 functionality for Step 1 verification
 	if (address.startsWith("/Verif1")) {
 		if (firstArgumentValue == 0) {
 			if (toutBon1) {
 				document.body.style.backgroundColor = "green";
-				vraiMot.style.display = "block";
-				fauxMot.style.display = "none";
+				etape1.style.display = "none";
 				etape2.style.display = "flex";
+				etape3.style.display = "none";
+				win.style.display = "none";
 			} else {
 				document.body.style.backgroundColor = "red";
-				vraiMot.style.display = "none";
-				fauxMot.style.display = "block";
+				etape1.style.display = "block";
 				etape2.style.display = "none";
+				etape3.style.display = "none";
+				win.style.display = "none";
 			}
 		}
 	}
-
-
 
 
 	/************************angle unit*********************************/
@@ -101,7 +99,6 @@ oscSocket.on("message", function (msg) {
 	if (address.startsWith("/chiffreAngle")) {
 		// Ensure the angle value is within a reasonable range (e.g., 0 to 100)
 		let angleThermo = firstArgumentValue;
-
 
 		// Ajuster la taille du thermometre
 		let mappedHeight = 160 - (angleThermo * 149 / 100); // Adjusting for a range between 160px and 11px
@@ -113,65 +110,88 @@ oscSocket.on("message", function (msg) {
 		let angleDisplay = document.getElementById("angle-display");
 		angleDisplay.innerHTML = "Angle: " + firstArgumentValue + "°";
 
-		if (mappedHeight == 69) {
+		if (angleThermo == 69) {
 			toutBon2 = true;
-			console.log("Bonne réponse, l'angle est 69.");
 			// Vous pouvez ajouter des actions pour la bonne réponse ici
 		} else {
-			//	console.log("Mauvaise réponse, l'angle n'est pas .");
 			// Vous pouvez ajouter des actions pour la mauvaise réponse ici
 		}
-    }
+	}
+
 	if (address.startsWith("/Verif2")) {
 		if (firstArgumentValue == 0) {
 			if (toutBon2) {
 				document.body.style.backgroundColor = "green";
-				etape1.style.display = "flex";
-			} else {
+				etape1.style.display = "none";
+				etape2.style.display = "none";
+				etape3.style.display = "block";
+				win.style.display = "none";
+			} else if (toutBon2 = false) {
 				document.body.style.backgroundColor = "red";
 				etape1.style.display = "none";
+				etape2.style.display = "block";
+				etape3.style.display = "none";
+				win.style.display = "none";
 			}
 		}
 	}
 
-/************************Encoder solo*********************************/
-let cadenas = firstArgumentValue;
-let currentIndex = 0; // Indice actuel pour le nombre en cours
-let combinaisonArr = [0, 0, 0]; // Valeurs initiales pour le cadenas
-let nombreArr = [
-  document.querySelector('#nombre-1'),
-  document.querySelector('#nombre-2'),
-  document.querySelector('#nombre-3')
-];
+	/************************Encoder solo*********************************/
+	let nombre1 = document.querySelector(".nombre-1");
+	let nombre2 = document.querySelector(".nombre-2");
+	let nombre3 = document.querySelector(".nombre-3");
+	let index = 1;
 
-// Mettre à jour les affichages des nombres
-function updateDisplay() {
-  nombreArr.forEach((el, index) => {
-    el.innerHTML = combinaisonArr[index];
-  });
-}
+		if (address.startsWith("/cadenas")) {
+			if (index === 1) {
+				if (firstArgumentValue !== undefined) {
+					nombre1.innerHTML = firstArgumentValue;
+					console.log("chifre 1 ")
+				}
+			} else if (index === 2) {
+				if (firstArgumentValue !== undefined) {
+					nombre2.innerHTML = firstArgumentValue;
+				}
+			} else if (index === 3) {
+				if (firstArgumentValue !== undefined) {
+					nombre3.innerHTML = firstArgumentValue;
+				}
+			}
 
-// Réception des données OSC
-if (address.startsWith("/cadenas")) {
-  if (address.startsWith("/cadenas/button")) {
-    // Le bouton est pressé : passer au nombre suivant
-    if (currentIndex < combinaisonArr.length - 1) {
-      currentIndex++;
-    } else {
-      console.log("Tous les nombres sont définis : ", combinaisonArr);
-      // Si tous les nombres sont définis, ajouter une vérification ici
-    }
-  } else {
-    // Mise à jour de la valeur de l'encodeur pour le nombre courant
-    combinaisonArr[currentIndex] += cadenas; // Ajoute la rotation
-    updateDisplay(); // Met à jour l'affichage
-  }
-}
+			if (address.startsWith("/cadenas/button")) {
+				// Le bouton est pressé : passer au nombre suivant
+				if (index < 3) {
+					index++;
+				} else {
+					console.log("Tous les nombres sont définis !");
+					// Réinitialiser ou ajouter une action ici
+				}
+			}
+	}
 
-// Vérification finale de la combinaison
-if (JSON.stringify(combinaisonArr) === JSON.stringify([a, b, c])) {
-  console.log("Cadenas déverrouillé !");
-}
+	if (address.startsWith("/Verif3")) {
+		if (firstArgumentValue == 0) {
+			if (toutBon3) {
+				document.body.style.backgroundColor = "green";
+				etape1.style.display = "none";
+				etape2.style.display = "none";
+				etape3.style.display = "none";
+				win.style.display = "block";
+			} else {
+				document.body.style.backgroundColor = "red";
+				etape1.style.display = "none";
+				etape2.style.display = "none";
+				etape3.style.display = "block";
+			}
+		}
+	}
+	if (address.startsWith("/Reset")) {
+		if (firstArgumentValue == 0) {
+			etape1.style.display = "block";
+		}
+	}
+
+
 
 });
 

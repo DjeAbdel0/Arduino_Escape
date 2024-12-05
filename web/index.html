@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-
+ 
 <head>
     <title>MicroOscSlip_pot_photo_button_led</title>
     <meta charset="UTF-8" />
@@ -10,61 +10,79 @@
 </head>
 <!-----Étape 1----->
 <body>
-    <div id="etape-1">
-        <h1>Essayer de trouver le mot</h1>
-        <P>Mon premier coule dans vos veines.</P>
-        <p> Mon second est la 7eme lettre de l’alphabet.</p>
-        <p>Mon troisième est synonyme d’attacher.
-        </p>
-        <p>Mon tout est un animal.</p>
-
-
-
-
-        <div class="letter-row">
-            <div id="Lettre-1">Chiffre: 0</div>
-            <div id="Lettre-2">Chiffre: 0</div>
-            <div id="Lettre-3">Chiffre: 0</div>
-            <div id="Lettre-4">Chiffre: 0</div>
-            <div id="Lettre-5">Chiffre: 0</div>
-            <div id="Lettre-6">Chiffre: 0</div>
-            <div id="Lettre-7">Chiffre: 0</div>
-            <div id="Lettre-8">Chiffre: 0</div>
-        </div>
-
-
-        <div class="button-row">
-            <button id="verifier">Verifier</button>
-            <p id="faux-mot"> Mauvaise reponse, Reessayer</p>
-            <p id="vrai-mot"> Bonne reponse, passez a la prochaine etape</p>
-        </div>
-
-        <h2>Trouver la bonne temperature</h2>
-        
-    </div>
-<!-----Étape 2----->
-    <div id="etape-2">
-        <div class="thermometer">
-            <h3>3×23=?</h3>
-            <h3 id="angle-display"></h3>
-            <div class="thermometerBody">
-                <div class="thermometerBodyFill"></div>
+    <div id="charad">
+        <div id="etape-1">
+            <div class="bg-1">
+                <h1>Essayer de trouver le mot</h1>
+            <P>Mon premier coule dans vos veines.</P>
+            <p> Mon second est la 7eme lettre de l’alphabet.</p>
+            <p>Mon troisième est synonyme d’attacher.
+            </p>
+            <p>Mon tout est un animal.</p>
+   
+   
+   
+   
+            <div class="letter-row">
+                <div id="Lettre-1">Chiffre: 0</div>
+                <div id="Lettre-2">Chiffre: 0</div>
+                <div id="Lettre-3">Chiffre: 0</div>
+                <div id="Lettre-4">Chiffre: 0</div>
+                <div id="Lettre-5">Chiffre: 0</div>
+                <div id="Lettre-6">Chiffre: 0</div>
+                <div id="Lettre-7">Chiffre: 0</div>
+                <div id="Lettre-8">Chiffre: 0</div>
             </div>
-            <div class="thermometer-base">
-                <div class="thermometer-base-fill"></div>
+   
+   
+            <div class="button-row">
+                <p id="faux-mot"> Mauvaise reponse, Reessayer</p>
+                <p id="vrai-mot"> Bonne reponse, passez a la prochaine etape</p>
+            </div>
+            <p>Appuyez sur le bouton vert pour entrer votre réponse!</p>
+            </div>
+            <div class="os">
+                <div id="o1">0</div>
+                <div id="o2">0</div>
+                <div id="o3">0</div>
             </div>
         </div>
-    </div>
-<!-----Étape 3----->
-    <div id="etape-3">
-        <h3>Trouver la combinaison du cadenas</h3>
-        <img src="puzzle_02.png" alt="puzzle_02">
-        <div class="cadenas">
-            <div id="nombre-1">0</div>
-            <div id="nombre-2">0</div>
-            <div id="nombre-3">0</div>
+    <!-----Étape 2----->
+        <div id="etape-2">
+            <h1 class="temp">Trouver la bonne température</h1>
+            <h3>Funny number haha</h3>
+            <div class="thermometer">
+                <h3 id="angle-display"></h3>
+                <div class="thermometerBody">
+                    <div class="thermometerBodyFill"></div>
+                </div>
+                <div class="thermometer-base">
+                    <div class="thermometer-base-fill"></div>
+                </div>
+            </div>
+            <p>Appuyez sur le bouton bleu pour entrer votre réponse!</p>
+            <div class="os">
+                <div id="o1">0</div>
+                <div id="o2">0</div>
+                <div id="o3">0</div>
+            </div>
+        </div>
+    <!-----Étape 3----->
+        <div id="etape-3">
+            <h2>Trouver la combinaison du cadenas</h2>
+            <img src="puzzle_02.png" alt="puzzle_02" class="puzzle-3">
+            <div class="cadenas">
+                <div id="nombre-1">0</div>
+                <div id="nombre-2">0</div>
+                <div id="nombre-3">0</div>
+            </div>
+            <p>Appuyez sur le bouton rouge pour entrer votre réponse!</p>
+        </div>
+        <!-----Félicitation----->
+        <div id="win">
+            <h1>Félicitation vous avez réussi la charade!</h1>
+            <h3>Appuyez sur le bouton blanc pour recommencer</h3>
         </div>
     </div>
 </body>
-
 </html>
