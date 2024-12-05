@@ -28,6 +28,8 @@ int maLectureKeyPrecedente2;
 int maLectureKeyPrecedente3;
 int maLectureKeyPrecedente4;
 
+int maLectureEncoderPrecedente;
+
 
 
 int etatPlay;
@@ -143,6 +145,11 @@ void loop() {
     int encoderRotation = myEncoder.getEncoderValue();
     monOsc.sendInt("/cadenas", encoderRotation);
     int encoderButton = myEncoder.getButtonStatus();
-    monOsc.sendInt("/cadenas/button", encoderButton);
+    if(maLectureEncoderPrecedente != encoderButton){
+      if(encoderButton == 0){
+            monOsc.sendInt("/CodeBtn", encoderButton);
+      }
+    }
+    maLectureEncoderPrecedente = encoderButton;
   }
 }

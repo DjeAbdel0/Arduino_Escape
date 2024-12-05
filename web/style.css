@@ -22,7 +22,7 @@ body {
 }
  
 .bg-1 {
-    background-color: rgb(221, 209, 35);
+    background-color: rgb(187, 3, 211);
 }
  
 #etape-3, #etape-1, #etape-2 {
@@ -42,6 +42,7 @@ body {
     padding: 20px;
     border-radius: 20px;
 }
+ 
 #etape-1 {
     display: flex;
 }
@@ -178,13 +179,16 @@ body {
 /*************************** Étape 3 ***************************/
  
 .puzzle-3 {
-    width: 100%;
+    width: 60%;
 }
  
 .cadenas {
+    background-color: #db1d1d;
     width: 40%;
     display: flex;
     justify-content: space-evenly;
+    text-align: center;
+    margin: 0 auto;
 }
  
 #nombre-1, #nombre-2, #nombre-3 {
