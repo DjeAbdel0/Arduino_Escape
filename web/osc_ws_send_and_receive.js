@@ -268,7 +268,9 @@ oscSocket.on("message", function (msg) {
       etape2.style.display = "none";
       etape3.style.display = "none";
       win.style.display = "none";
-      toutBon1 = toutBon2 = toutBon3 = false;
+      toutBon1 = false;
+      toutBon2 = false;
+      toutBon3 = false;
     }
   }
 });
