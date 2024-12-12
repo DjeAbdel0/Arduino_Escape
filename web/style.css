@@ -1,196 +1,212 @@
 @font-face {
-    font-family: 'Enigma-Bold';
-    src: url('./enigma_4/Enigma-Bold.otf') format('opentype');
+  font-family: "Enigma-Bold";
+  src: url("./enigma_4/Enigma-Bold.otf") format("opentype");
 }
- 
+
 body {
-    background-color: rgb(117, 255, 255);
-    text-align: center;
-    font-family: "Enigma-Bold";
-    height: 100vh;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background-color: rgb(117, 255, 255);
+  text-align: center;
+  font-family: "Enigma-Bold";
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
- 
+
 #charad {
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
- 
+
 .bg-1 {
-    background-color: rgb(187, 3, 211);
+  background-color: rgb(187, 3, 211);
+  box-shadow: inset 0px 2px 6px rgba(0, 0, 0, 0.5);
+  height: auto;
 }
- 
-#etape-3, #etape-1, #etape-2 {
-    background-color: rgb(86, 86, 231);
-}
- 
-#win {
-    background-color: rgb(0, 255, 76);
-}
- 
- 
-#etape-1, #etape-2, #etape-3, #win {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 80%;
-    padding: 20px;
-    border-radius: 20px;
-}
- 
-#etape-1 {
-    display: flex;
-}
- 
+
+#etape-3,
+#etape-1,
 #etape-2 {
-    display: none;
+  background-color: rgb(86, 86, 231);
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 1);
+}
+
+#win {
+  background-color: rgb(0, 255, 76);
+}
+
+#etape-1,
+#etape-2,
+#etape-3,
+#win {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+#etape-1 {
+  display: flex;
+  height: 75vh;
+}
+
+#etape-2 {
+  display: none;
 }
 #etape-3 {
-    display: none;
+  display: none;
 }
 #win {
-    display: none;
+  display: none;
 }
 .os {
-    width: 40%;
-    display: flex;
-    justify-content: space-evenly;
+  width: 40%;
+  display: flex;
+  justify-content: space-evenly;
 }
- 
-#o1, #o2, #o3 {
-    font-size: 50px;
+
+#o1,
+#o2,
+#o3 {
+  font-size: 50px;
 }
- 
+
+.instructionBoutonConfirm {
+  flex-direction: flex;
+}
+
 /*************************** Étape 1 ***************************/
 .letter-row {
-    display: flex;
-    margin: 15px;
+  display: flex;
+  align-items: center;
+  margin: 15px;
+  height: 50px;
 }
- 
+
 .letter-row div {
-    padding: 10px;
-    font-size: 10px;
-    text-align: center;
-    border: 1px solid #000;
+  padding: 10px;
+  font-size: 10px;
+  text-align: center;
+  border: 1px solid #000;
 }
- 
+
 .button-row {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
- 
+
 #verifier {
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #d7db94;
-    color: white;
-    border-radius: 5%;
-    cursor: pointer;
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #d7db94;
+  color: white;
+  border-radius: 5%;
+  cursor: pointer;
 }
- 
+
 #verifier:hover {
-    background-color: #45a049;
+  background-color: #45a049;
 }
- 
-#faux-mot, #vrai-mot {
-    display: none;
+
+#faux-mot,
+#vrai-mot {
+  display: none;
 }
- 
- 
+
 /*************************** Étape 2 ***************************/
- 
- 
- 
+
 .thermometer {
-    width: 200px;
-    margin: 0 auto;
-    position: relative;
+  width: 200px;
+  margin: 0 auto;
+  position: relative;
 }
- 
+
 .thermometer-base,
 .thermometerBody {
-    background-color: #ededfa;
-    border: 15px solid #d8d9e8;
-    margin: 0 auto;
+  background-color: #ededfa;
+  border: 15px solid #d8d9e8;
+  margin: 0 auto;
 }
- 
+
 .thermometer-base,
 .thermometer-base-fill {
-    margin: 0 auto;
-    border-radius: 50%;
-    z-index: 0;
+  margin: 0 auto;
+  border-radius: 50%;
+  z-index: 0;
 }
- 
+
 .thermometer-base {
-    height: 120px;
-    width: 120px;
+  height: 120px;
+  width: 120px;
 }
- 
+
 .thermometer-base::before {
-    content: "";
-    background-color: #db1d1d;
-    height: 15px;
-    width: 40px;
-    position: absolute;
-    left: 80px;
-    z-index: 1;
+  content: "";
+  background-color: #db1d1d;
+  height: 15px;
+  width: 40px;
+  position: absolute;
+  left: 80px;
+  z-index: 1;
 }
- 
+
 .thermometer-base-fill {
-    background-color: #db1d1d;
-    height: 98px;
-    width: 98px;
-    position: relative;
-    top: 11px;
-    transition: top 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+  background-color: #db1d1d;
+  height: 98px;
+  width: 98px;
+  position: relative;
+  top: 11px;
+  transition: top 0.5s cubic-bezier(0.33, 1, 0.68, 1);
 }
- 
+
 .thermometerBody,
 .thermometerBodyFill {
-    margin: 0 auto;
-    border-radius: 50px 50px 0 0;
-    z-index: 1;
+  margin: 0 auto;
+  border-radius: 50px 50px 0 0;
+  z-index: 1;
 }
- 
+
 .thermometerBody {
-    height: 325px;
-    width: 60px;
-    border-bottom: 0;
-    position: relative;
-    bottom: -23px;
-    overflow: hidden;
+  height: 325px;
+  width: 60px;
+  border-bottom: 0;
+  position: relative;
+  bottom: -23px;
+  overflow: hidden;
 }
- 
+
 .thermometerBodyFill {
-    background-color: #db1d1d;
-    height: 320px;
-    width: 40px;
-    position: relative;
-    top: 160px;
-    transition: top 0.5s linear;
+  background-color: #db1d1d;
+  height: 320px;
+  width: 40px;
+  position: relative;
+  top: 160px;
+  transition: top 0.5s linear;
 }
- 
+
 /*************************** Étape 3 ***************************/
- 
+
 .puzzle-3 {
-    width: 60%;
+  width: 60%;
 }
- 
+
 .cadenas {
-    background-color: #db1d1d;
-    width: 40%;
-    display: flex;
-    justify-content: space-evenly;
-    text-align: center;
-    margin: 0 auto;
+  background-color: #db1d1d;
+  width: 40%;
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+  margin: 0 auto;
 }
- 
-#nombre-1, #nombre-2, #nombre-3 {
-    font-size: 50px;
+
+#nombre-1,
+#nombre-2,
+#nombre-3 {
+  font-size: 50px;
 }

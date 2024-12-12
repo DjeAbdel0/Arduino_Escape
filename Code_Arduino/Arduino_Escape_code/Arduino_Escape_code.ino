@@ -114,24 +114,27 @@ void loop() {
         myPbHub.setPixelColor(btn2, 0, 0, 0, 255);
         monOsc.sendInt("/Verif2", etatPlay);
       }
+        maLectureKeyPrecedente2 = maLectureKey2;
     }
-    maLectureKeyPrecedente2 = maLectureKey2;
+
 
     if (maLectureKeyPrecedente3 != maLectureKey3) {
       if (maLectureKey3 == 0) {
         myPbHub.setPixelColor(btn3, 0, 255, 0, 0);
         monOsc.sendInt("/Verif3", etatPlay);
       }
+      maLectureKeyPrecedente3 = maLectureKey3;
     }
-    maLectureKeyPrecedente3 = maLectureKey3;
+    
 
     if (maLectureKeyPrecedente4 != maLectureKey4) {
       if (maLectureKey4 == 0) {
         myPbHub.setPixelColor(btn4, 0, 255, 255, 255);
         monOsc.sendInt("/Reset", etatPlay);
       }
+      maLectureKeyPrecedente4 = maLectureKey4;
     }
-    maLectureKeyPrecedente4 = maLectureKey4;
+    
 
     // Lecture de l'angle et envoi
     int maLectureAngle = myPbHub.analogRead(CHAN_ANGLE);
