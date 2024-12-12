@@ -12,9 +12,9 @@ let button;
 let indexCadenas = 1;
 
 // Const pour les sons
-const correctSound = new Audio("./enigma_4/assets/correct.mp3");
-const incorrectSound = new Audio("./enigma_4/assets/incorrect.mp3");
-const victorySound = new Audio("./enigma_4/assets/victoire.mp3");
+const correctSound = new Audio("./enigma_4/Assets/correct.wav");
+const incorrectSound = new Audio("./enigma_4/Assets/incorrect.wav");
+const victorySound = new Audio("./enigma_4/Assets/victoire.wav");
 
 // OSC WEBSOCKET
 let webSocketConnected = false;
